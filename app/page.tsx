@@ -1,39 +1,51 @@
 "use client";
 
-import answerQuestion from "@/ai/answerQuestion";
-import { useActionState } from "react";
+import CommitMessagePanel from "@/components/features/CommitMessagePanel";
+import { useState } from "react";
+
+const tabs = [
+  { id: "commit", label: "Commit Message" },
+  { id: "pr", label: "PR Summary" },
+  { id: "readme", label: "README Generator" },
+  { id: "explain", label: "Code Explainer" },
+] as const;
+
+type TabId = (typeof tabs)[number]["id"];
 
 const Home = () => {
-  const [state, action, pending] = useActionState(answerQuestion, {
-    error: false,
-    text: "",
-  });
+  const [activeTab, setActiveTab] = useState<TabId>("commit");
+
   return (
-    <div className="min-h-screen flex flex-col  justify-center items-center">
-      <div className="max-w-6xl mx-auto w-full ">
-        <h1 className="text-3xl bg-clip-text bg-linear-to-r from-blue-400 via-purple-500 to-pink-500 text-transparent mb-8">
+    <div className="min-h-screen bg-gray-50 py-10">
+      <div className="mx-auto w-full max-w-6xl px-4">
+        <h1 className="mb-8 text-3xl font-bold text-gray-900">
           AI GIT ASSISTANT
         </h1>
-        <form className="flex flex-col gap-2" action={action}>
-          <textarea
-            name="question"
-            placeholder="Ask a git related question..."
-            className="px-8 py-3 rounded-md border border-blue-100 ring ring-blue-100"
-          ></textarea>
-          <button
-            disabled={pending}
-            type="submit"
-            className={`px-6 py-3 rounded-md text-white  w-fit ${pending ? "bg-blue-200 cursor-not-allowed" : "bg-blue-500"}`}
-          >
-            {pending ? "Answering..." : "Ask"}
-          </button>
-        </form>
-        {state.error && (
-          <p className="text-red-500 mt-4">
-            An error occurred. Please try again.
-          </p>
+
+        <div className="mb-6 flex flex-wrap gap-2 rounded-lg border border-gray-200 bg-white p-2">
+          {tabs.map((tab) => (
+            <button
+              key={tab.id}
+              type="button"
+              onClick={() => setActiveTab(tab.id)}
+              className={`rounded-md px-4 py-2 text-sm font-medium transition ${
+                activeTab === tab.id
+                  ? "bg-blue-600 text-white"
+                  : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+              }`}
+            >
+              {tab.label}
+            </button>
+          ))}
+        </div>
+
+        {activeTab === "commit" && <CommitMessagePanel />}
+
+        {activeTab !== "commit" && (
+          <div className="rounded-lg border border-gray-200 bg-white p-6 text-sm text-gray-600">
+            This panel will be implemented next.
+          </div>
         )}
-        {state.text && <p className="text-green-500 mt-4">{state.text}</p>}
       </div>
     </div>
   );

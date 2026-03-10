@@ -1,4 +1,4 @@
-type AiResponse = {
+export type AiResponse = {
   error: boolean;
   text?: string;
 };
