@@ -1,6 +1,7 @@
 "use client";
 
 import CommitMessagePanel from "@/components/features/CommitMessagePanel";
+import PrSummaryPanel from "@/components/features/PrSummaryPanel";
 import { useState } from "react";
 
 const tabs = [
@@ -40,8 +41,9 @@ const Home = () => {
         </div>
 
         {activeTab === "commit" && <CommitMessagePanel />}
+        {activeTab === "pr" && <PrSummaryPanel />}
 
-        {activeTab !== "commit" && (
+        {activeTab !== "commit" && activeTab !== "pr" && (
           <div className="rounded-lg border border-gray-200 bg-white p-6 text-sm text-gray-600">
             This panel will be implemented next.
           </div>
