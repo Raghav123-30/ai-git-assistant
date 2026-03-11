@@ -7,8 +7,6 @@ import { useState } from "react";
 const tabs = [
   { id: "commit", label: "Commit Message" },
   { id: "pr", label: "PR Summary" },
-  { id: "readme", label: "README Generator" },
-  { id: "explain", label: "Code Explainer" },
 ] as const;
 
 type TabId = (typeof tabs)[number]["id"];
